@@ -25,14 +25,14 @@ class StatsApp:
     # -------------------- #
     # 2. lista de matches  #
     # -------------------- #
-    def get_matches_list(self, region: str, player_puuid: str) -> str:
+    def get_matches_list(self, region: str, player_puuid: str) -> list:
 
         self.api_url= f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids?start=0&count=20&api_key={self.api_key}"
 
         self.matches_list = self.get_response(self.api_url)
-        self.match_id = self.matches_list[0]  
+        #self.match_id = self.matches_list[0]  
 
-        return self.match_id
+        return self.matches_list
 
     # ------------------ #
     #     3. match       #
@@ -61,6 +61,14 @@ class StatsApp:
             "goldEarned": self.player_info["goldEarned"],
             "totalMinionsKilled": self.player_info["totalMinionsKilled"]
         }
+    
+    def get_every_match_data(self, region:str, matches_list: list, player_puuid: str):
+        matches_dict = { }
+
+        for match_id in matches_list:
+            matches_dict[match_id] = self.get_match_data(region, match_id, player_puuid)
+        
+        return matches_dict
 
 # --- testeos --- #
 testing = StatsApp()
@@ -69,19 +77,7 @@ region = "americas"
 game_name  = input("Mandate el game name: ")
 tag_line = input("Mandate el tag line: ").upper()
 puuid = testing.get_player_puuid(region, game_name, tag_line)
-match_id = testing.get_matches_list(region, puuid)
+match_id = testing.get_matches_list(region, puuid)[0]
 
-
-#print(testing.get_match_data(region, match_id, puuid)) # me devuelve la info que yo necesite
-
-print(f"¿Ganó?: {testing.get_match_data(region, match_id, puuid)["win"]}")
-print(f"Nombre del champ: {testing.get_match_data(region, match_id, puuid)["championName"]}")
-print(f"Lado del mapa (100 azul, 200 rojo): {testing.get_match_data(region, match_id, puuid)["teamId"]}")
-print(f"Duración de la partida: {testing.get_match_data(region, match_id, puuid)["gameDuration"]}")
-print(f"Fecha de juego: {testing.get_match_data(region, match_id, puuid)["gameCreation"]}")
-print(f"Kills: {testing.get_match_data(region, match_id, puuid)["kills"]}")
-print(f"Muertes: {testing.get_match_data(region, match_id, puuid)["deaths"]}")
-print(f"Asistencias: {testing.get_match_data(region, match_id, puuid)["assists"]}")
-print(f"Oro ganado total: {testing.get_match_data(region, match_id, puuid)["goldEarned"]}")
-print(f"Minions eliminados total: {testing.get_match_data(region, match_id, puuid)["totalMinionsKilled"]}")
-# -------------- #s
+print(testing.get_every_match_data(region, testing.get_matches_list(region, puuid), puuid))
+# -------------- #
