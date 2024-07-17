@@ -4,17 +4,8 @@ class MatchHistory:
     def __init__(self, df):
         self.df = df 
 
-    def match_count(self) -> int:
-        return len(self.df)
-
-    def win_count(self):
-        return (self.df['win'] == True).sum()
-
-    def lose_count(self):
-        return (self.df['win'] == False).sum()
-
     def win_rate(self) -> int:
-        match_count = self.match_count()
+        match_count = self.df.shape[0]
         if match_count == 0:
             return "This summoner has no recent matches"
         else:
@@ -26,19 +17,15 @@ class MatchHistory:
         return self.df
 
     def win_rate_by_map_side(self) -> dict:
-        win_count = self.win_count()
-        if win_count == 0:
-            return {'red_map': 0, 
-                    'blue_map': 0}
+        only_wins = self.df.filter_by_win()
+        red_map = only_wins['teamId'] == 200
+        blue_map = only_wins['teamId'] == 100
 
-        red_map = self.df.filter_by_win()['teamId'] == 200
-        blue_map = self.df.filter_by_win()['teamId'] == 100
+        red_and_win = only_wins[red_map]
+        blue_and_win = only_wins[blue_map]
 
-        red_and_win = self.df.filter_by_win()[red_map]
-        blue_and_win = self.df.filter_by_win()[blue_map]
-
-        red_and_win_rate = round((len(red_and_win) / win_count) * 100, 1)
-        blue_and_win_rate = round((len(blue_and_win) / win_count) * 100, 1)
+        red_and_win_rate = round((len(red_and_win) / only_wins.shape[0]) * 100, 1)
+        blue_and_win_rate = round((len(blue_and_win) / only_wins.shape[0]) * 100, 1)
 
         return {'red_map': red_and_win_rate, 'blue_map': blue_and_win_rate}
 
@@ -69,13 +56,13 @@ class MatchHistory:
             return datetime.fromtimestamp(timestamp / 1000).hour
         self.df[timestamp_column] = self.df[timestamp_column].apply(timestamp_to_hour)
 
-    def mean_farm(self):
+    def mean_farm (self) -> int:
         mean_farm_per_match = self.df['totalMinionsKilled'].sum()/self.df.shape[0]
         return mean_farm_per_match
 
-    def mean_kda(self) -> int:
-        if self.df['deaths'] > 0:
-            mean_kda_per_match = (self.df['kills'].sum() + self.df['assists'].sum()) / self.df['deaths'].sum()
-            return mean_kda_per_match
-        else:
-            return "Sos el mejor jugador del mundo"
+    def get_kda(self) -> int:
+        match_count = self.df.shape[0]
+        kills = round(self.df['kills'].sum() / match_count, 2)
+        deaths = round(self.df['deaths'].sum() / match_count, 2)
+        assists = round(self.df['assists'].sum() / match_count, 2)
+        return f"{kills}/{deaths}/{assists}"

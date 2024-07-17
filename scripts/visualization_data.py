@@ -37,22 +37,25 @@ class CreatePlt:
         match_history.get_match_hour("gameCreation")
         filtered_history = match_history.filter_by_win()
         victories_by_hour = filtered_history['gameCreation'].value_counts()
+        all_hours = pd.Series(0, index=range(24))
+        victories_by_hour = all_hours.add(victories_by_hour, fill_value=0)
         total_victories = victories_by_hour.sum()
-
         if total_victories > 0:
-            win_rate_by_hour = (victories_by_hour / total_victories) * 100
+            win_rate_by_hour = round((victories_by_hour / total_victories) * 100)
         else:
-            win_rate_by_hour = 0
+            win_rate_by_hour = 0 
 
         fig, ax = plt.subplots()
         win_rate_by_hour.plot(kind='bar', ax=ax)
         ax.set_xlabel('Hora')
         ax.set_ylabel('Porcentaje de victorias')
         ax.set_title('Tasa de victorias según la hora del día')
+        ax.set_xticks([0, 5, 10, 15, 20])
+        ax.set_xticklabels([0, 5, 10, 15, 20])
         plt.show()
-        
+
         return fig
-    
+
 
 api_request_app = StatsApp()
 
@@ -64,7 +67,8 @@ matches_list = api_request_app.get_matches_list(region, puuid)
 dictionary = api_request_app.get_every_match_data(region, matches_list, puuid)
 
 df = pd.DataFrame.from_dict(dictionary, orient="index")
+match_history = MatchHistory(df)
 
-plot_creator = CreatePlt(df)
-
-plot_creator.winrate_per_hour_plot()
+print(match_history.get_kda())
+# plot_creator = CreatePlt(df)
+# plot_creator.winrate_per_hour_plot()
