@@ -27,7 +27,7 @@ class StatsApp:
     # -------------------- #
     def get_matches_list(self, region: str, player_puuid: str) -> list:
 
-        self.api_url= f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids?start=0&count=20&api_key={self.api_key}"
+        self.api_url= f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids?start=0&count=40&api_key={self.api_key}"
 
         self.matches_list = self.get_response(self.api_url)
         #self.match_id = self.matches_list[0]  
@@ -53,8 +53,8 @@ class StatsApp:
             "win": self.player_info["win"],
             "championName": self.player_info["championName"],
             "teamId": self.player_info["teamId"],
-            "gameDuration": self.match_data["info"]["gameDuration"],
-            "gameCreation": self.match_data["info"]["gameCreation"],
+            "gameDuration": self.match_data["info"]["gameDuration"], #ms
+            "gameCreation": self.match_data["info"]["gameCreation"], #unix
             "kills": self.player_info["kills"],
             "deaths": self.player_info["deaths"],
             "assists": self.player_info["assists"],
@@ -62,7 +62,7 @@ class StatsApp:
             "totalMinionsKilled": self.player_info["totalMinionsKilled"]
         }
     
-    def get_every_match_data(self, region:str, matches_list: list, player_puuid: str):
+    def get_every_match_data(self, region:str, matches_list: list, player_puuid: str) -> dict:
         matches_dict = { }
 
         for match_id in matches_list:
@@ -71,13 +71,13 @@ class StatsApp:
         return matches_dict
 
 # --- testeos --- #
-testing = StatsApp()
+# testing = StatsApp()
 
-region = "americas"
-game_name  = input("Mandate el game name: ")
-tag_line = input("Mandate el tag line: ").upper()
-puuid = testing.get_player_puuid(region, game_name, tag_line)
-match_id = testing.get_matches_list(region, puuid)[0]
+# region = "americas"
+# game_name  = input("Mandate el game name: ")
+# tag_line = input("Mandate el tag line: ").upper()
+# puuid = testing.get_player_puuid(region, game_name, tag_line)
+# match_id = testing.get_matches_list(region, puuid)[0]
 
-print(testing.get_every_match_data(region, testing.get_matches_list(region, puuid), puuid))
+#print(testing.get_every_match_data(region, testing.get_matches_list(region, puuid), puuid))
 # -------------- #

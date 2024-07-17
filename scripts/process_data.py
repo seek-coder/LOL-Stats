@@ -21,7 +21,7 @@ class MatchHistory:
             return round((self.win_count() / match_count) * 100, 1)
 
     def filter_by_win(self) -> object:
-        win_filter = self.df['endOfGameResult'] == 1
+        win_filter = self.df['win'] == True
         self.df = self.df[win_filter]
         return self.df
 
@@ -51,23 +51,22 @@ class MatchHistory:
 
 
     def total_winning_streak(self) -> int:
-        shifted1 = self.df['endOfGameResult'].shift(1)
-        shifted2 = self.df['endOfGameResult'].shift(2)
+        shifted1 = self.df['win'].shift(1)
+        shifted2 = self.df['win'].shift(2)
 
-        winning_streak = (self.df['endOfGameResult'] == shifted1) & (shifted1 == shifted2)
+        winning_streak = (self.df['win'] == shifted1) & (shifted1 == shifted2)
         total_winning_streak = winning_streak.sum()
 
         return total_winning_streak
 
     def get_match_day(self, timestamp_column):
         def timestamp_to_day_of_week(timestamp) -> str:
-            return datetime.fromtimestamp(timestamp).strftime('%A')
+            return datetime.fromtimestamp(timestamp / 1000).strftime('%A')
         self.df[timestamp_column] = self.df[timestamp_column].apply(timestamp_to_day_of_week)
-
 
     def get_match_hour(self, timestamp_column):
         def timestamp_to_hour(timestamp) -> int:
-            return datetime.fromtimestamp(timestamp).hour
+            return datetime.fromtimestamp(timestamp / 1000).hour
         self.df[timestamp_column] = self.df[timestamp_column].apply(timestamp_to_hour)
 
     def mean_farm(self):
@@ -80,4 +79,3 @@ class MatchHistory:
             return mean_kda_per_match
         else:
             return "Sos el mejor jugador del mundo"
-
