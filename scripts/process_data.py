@@ -8,10 +8,10 @@ class MatchHistory:
         return len(self.df)
 
     def win_count(self):
-        return (self.df['win'] is True).sum()
+        return (self.df['win'] == True).sum()
 
     def lose_count(self):
-        return (self.df['win'] is False).sum()
+        return (self.df['win'] == False).sum()
 
     def win_rate(self) -> int:
         match_count = self.match_count()
@@ -31,8 +31,8 @@ class MatchHistory:
             return {'red_map': 0, 
                     'blue_map': 0}
 
-        red_map = self.df.filter_by_win()['teamId'] == 1
-        blue_map = self.df.filter_by_win()['teamId'] == 0
+        red_map = self.df.filter_by_win()['teamId'] == 200
+        blue_map = self.df.filter_by_win()['teamId'] == 100
 
         red_and_win = self.df.filter_by_win()[red_map]
         blue_and_win = self.df.filter_by_win()[blue_map]
