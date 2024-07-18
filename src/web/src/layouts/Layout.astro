@@ -1,6 +1,7 @@
 ---
 import '@fontsource/mukta/400.css';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
 	title: string;
@@ -23,6 +24,7 @@ const { description, title } = Astro.props;
 	<body>
 		<Header />
 		<slot />
+		<Footer />
 	</body>
 </html>
 <style is:global>
