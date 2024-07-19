@@ -1,4 +1,8 @@
 import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv(dotenv_path="node_modules/.env")
 
 class StatsApp:
     # ------------------ #
@@ -6,17 +10,11 @@ class StatsApp:
     # ------------------ #
     def __init__(self):
 
-        self.api_key = "RGAPI-9ee88349-1701-4813-9c91-31a46733d3ed"
+        self.api_key = os.getenv('API_KEY')
 
     def get_response(self, url: str) -> str:
         self.response = requests.get(url)
         #self.response.raise_for_status() # valida que esté todo bien en la salida
-
-        self.api_key = "RGAPI-dd4273cb-91b6-4537-b78d-5eafe2aaa959"
-
-    def get_response(self, url: str) -> str:
-        self.response = requests.get(url)
-        self.response.raise_for_status() # valida que esté todo bien en la salida
 
         return self.response.json()
     

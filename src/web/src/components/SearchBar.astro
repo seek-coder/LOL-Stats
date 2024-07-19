@@ -1,4 +1,4 @@
-<form class="max-w-md my-auto mt-80 mx-auto justify-items p-4">   
+<!-- <form class="max-w-md my-auto mt-80 mx-auto justify-items p-4" method="get">   
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative">
         <input type="search" id="default-search" class="block w-full p-2 ps-8 text-sm text-gray-900/80 border border-gray-300 rounded-3xl bg-gray-50" placeholder="Nombre de invocador + # Tag" required />
@@ -8,4 +8,44 @@
             </svg>
         </button>
     </div>
+</form> -->
+
+<form id="search-form" class="max-w-md my-auto mt-80 mx-auto justify-items p-4">
+    <div class="relative">
+        <input type="search" id="default-search" class="block w-full p-2 ps-8 text-sm text-gray-900/80 border border-gray-300 rounded-3xl bg-gray-50" placeholder="Nombre de invocador + # Tag" required />
+        <button type="submit" class="absolute inset-y-0 end-5 flex items-center ps-3">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 hover:transition-colors hover:text-gray-800/80" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </button>
+    </div>
 </form>
+
+<!-- typescript -->
+<script>
+    const form = document.getElementById('search-form') as HTMLFormElement | null;
+    const inputElement = document.getElementById('default-search') as HTMLInputElement | null;
+    
+    if (form && inputElement) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = inputElement.value;
+            fetch(`/api/search?query=${encodeURIComponent(query)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Datos recibidos:', data);
+                })
+                .catch(error => {
+                    console.error('Hubo un problema con la solicitud fetch:', error);
+                });
+        });
+    } else {
+        console.error('El formulario o el input no están disponibles.');
+    }
+    </script>
+    
