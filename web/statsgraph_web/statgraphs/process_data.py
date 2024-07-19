@@ -1,23 +1,24 @@
 from datetime import datetime
 
+def filter_by_win(df) -> object:
+    win_filter = df['win'] == True
+    df = df[win_filter]
+    return df
+
 class MatchHistory:
     def __init__(self, df):
         self.df = df 
 
     def win_rate(self) -> int:
         match_count = self.df.shape[0]
+        only_wins = filter_by_win(self.df)
         if match_count == 0:
             return "This summoner has no recent matches"
         else:
-            return round((self.win_count() / match_count) * 100, 1)
-
-    def filter_by_win(self) -> object:
-        win_filter = self.df['win'] == True
-        self.df = self.df[win_filter]
-        return self.df
+            return round((only_wins.shape[0] / match_count) * 100, 1)
 
     def win_rate_by_map_side(self) -> dict:
-        only_wins = self.df.filter_by_win()
+        only_wins = filter_by_win(self.df)
         red_map = only_wins['teamId'] == 200
         blue_map = only_wins['teamId'] == 100
 
@@ -30,10 +31,11 @@ class MatchHistory:
         return {'red_map': red_and_win_rate, 'blue_map': blue_and_win_rate}
 
     def total_time_played(self) -> str:
-        seconds = self.df['gameDuration'].sum() / 1000
+        seconds = self.df['gameDuration'].sum()
         hours, seconds = divmod(seconds, 3600)
         minutes, seconds = divmod(seconds, 60)
         total_time = f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+        print (f"JUGASTE TODO ESTO PA: {total_time}")
         return total_time
 
 
@@ -65,4 +67,5 @@ class MatchHistory:
         kills = round(self.df['kills'].sum() / match_count, 2)
         deaths = round(self.df['deaths'].sum() / match_count, 2)
         assists = round(self.df['assists'].sum() / match_count, 2)
+        print(f"GANASTE TODO ESTO PA: {kills}/{deaths}/{assists}")
         return f"{kills}/{deaths}/{assists}"

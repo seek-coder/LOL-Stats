@@ -2,7 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 
-load_dotenv(dotenv_path="node_modules/.env")
+load_dotenv(dotenv_path="C:/Users/Leo\Desktop/Estudiar/Programación/Proyect_lol/graph_project_1/node_modules/.env")
 
 class StatsApp:
     # ------------------ #
@@ -48,9 +48,9 @@ class StatsApp:
         self.api_url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}?api_key={self.api_key}"
 
         self.match_data = self.get_response(self.api_url)
-
         self.player_index = self.match_data["metadata"]["participants"].index(player_puuid)
         self.player_info = self.match_data["info"]["participants"][self.player_index]
+
         
         # KDA: (asesinatos + asistencias)/ muertes
 
