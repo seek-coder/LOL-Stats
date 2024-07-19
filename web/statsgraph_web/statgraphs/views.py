@@ -3,6 +3,10 @@ from .forms import BusquedaInvocadorForm
 from .api_request import StatsApp
 import pandas as pd
 from .process_data import MatchHistory
+from .visualization_data import CreatePlt
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from django.http import HttpResponse
+
 def pagina_inicio(request):
     return render(request, 'pagina_inicio.html')
 
@@ -31,9 +35,12 @@ def buscar_invocador(request):
                 print(f"Datos de las partidas: {match_data}")
                 df = pd.DataFrame.from_dict(match_data, orient="index")
                 match_history = MatchHistory(df)
+                all_plots = CreatePlt(match_history)
+                plot = all_plots.winrate_per_hour_plot()
                 return render(request, 'resultados.html', {
                     'summoner_data': summoner_data,
-                    'match_history': match_history
+                    'match_history': match_history,
+                    'plot' : plot
                 })
             except ValueError as e:
                 return render(request, 'resultados.html', {'error': str(e)})
@@ -46,3 +53,10 @@ def buscar_invocador(request):
         form = BusquedaInvocadorForm()
     
     return render(request, 'busqueda.html', {'form': form})
+
+def plot(request):
+    # AGREGAR LA FUNCION QUE GENERA EL PLOT COMO fig
+    response = HttpResponse(content_type='image/png')
+    canvas = FigureCanvasAgg(fig)
+    canvas.print_png(response)
+    return response

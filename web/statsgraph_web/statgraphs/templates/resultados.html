@@ -18,6 +18,7 @@
         </p>
         <p>Cantidad de tiempo jugado: {{ match_history.total_time_played }}</p>
         <p>KDA: {{ match_history.get_kda }}</p>
+        <img src="{% url 'plot' %}" alt="Plot Image">
     {% endif %}
     {% if error %}
         <p>Error: {{ error }}</p>

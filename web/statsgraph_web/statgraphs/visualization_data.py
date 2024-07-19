@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from graph_project_1.web.statsgraph_web.statgraphs.process_data import MatchHistory
-from web.statsgraph_web.statgraphs.api_request import *
+from .process_data import MatchHistory
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from django.http import HttpResponse
 
 class CreatePlt:
     def __init__(self, df: pd.DataFrame):
@@ -28,9 +29,11 @@ class CreatePlt:
         ax.set_xlabel('Día de la semana')
         ax.set_ylabel('Porcentaje de victorias')
         ax.set_title('Tasa de victorias según el día de la semana')
-        plt.show()
+        response = HttpResponse(content_type = 'image/png')
+        canvas = FigureCanvasAgg(fig)
+        canvas.print_png(response)
 
-        return fig
+        return response
 
     def winrate_per_hour_plot(self) -> plt.Figure:
         match_history = MatchHistory(self.df)
@@ -56,18 +59,18 @@ class CreatePlt:
 
         return fig
 
-if __name__ == "__main__":
-    api_request_app = StatsApp()
+# if __name__ == "__main__":
+#     api_request_app = StatsApp()
 
-    region = "americas"
-    game_name  = input("Mandate el game name: ")
-    tag_line = input("Mandate el tag line: ").upper()
-    puuid = api_request_app.get_player_puuid(region, game_name, tag_line)
-    matches_list = api_request_app.get_matches_list(region, puuid)
-    dictionary = api_request_app.get_every_match_data(region, matches_list, puuid)
+    # region = "americas"
+    # game_name  = input("Mandate el game name: ")
+    # tag_line = input("Mandate el tag line: ").upper()
+    # puuid = api_request_app.get_player_puuid(region, game_name, tag_line)
+    # matches_list = api_request_app.get_matches_list(region, puuid)
+    # dictionary = api_request_app.get_every_match_data(region, matches_list, puuid)
 
-    df = pd.DataFrame.from_dict(dictionary, orient="index")
-    match_history = MatchHistory(df)
+    # df = pd.DataFrame.from_dict(dictionary, orient="index")
+    # match_history = MatchHistory(df)
 
     # print(match_history.get_kda())
     # plot_creator = CreatePlt(df)
