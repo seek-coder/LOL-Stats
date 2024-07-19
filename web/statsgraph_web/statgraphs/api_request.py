@@ -2,7 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 
-load_dotenv(dotenv_path="node_modules/.env")
+load_dotenv(dotenv_path="D:/proyecto_lol/graph_project_1/node_modules/.env")
 
 class StatsApp:
     # ------------------ #

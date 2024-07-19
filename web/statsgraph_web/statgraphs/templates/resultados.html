@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultados de Búsqueda</title>
+</head>
+<body>
+    <h1>Resultados</h1>
+    {% if summoner_data %}
+        <h2>Datos del Invocador</h2>
+        <p>Nivel: {{ summoner_data.summonerLevel }}</p>
+        <p>Ícono: <img src="https://ddragon.leagueoflegends.com/cdn/14.14.1/img/profileicon/{{ summoner_data.profileIconId }}.png" alt="Ícono del perfil"></p>
+    {% endif %}
+    {% if match_data %}
+        <h2>Datos de la Partida</h2>
+        <p>Ganó: {{ match_data.win }}</p>
+        <p>Campeón: {{ match_data.championName }}</p>
+        <p>Duración del juego: {{ match_data.gameDuration }}</p>
+        <p>Kills: {{ match_data.kills }}</p>
+        <p>Muertes: {{ match_data.deaths }}</p>
+        <p>Asistencias: {{ match_data.assists }}</p>
+    {% endif %}
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>

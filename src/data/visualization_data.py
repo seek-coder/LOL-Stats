@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from process_data import MatchHistory
-from api_request import *
+from web.statsgraph_web.statgraphs.api_request import *
 
 class CreatePlt:
     def __init__(self, df: pd.DataFrame):
