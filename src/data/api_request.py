@@ -89,16 +89,17 @@ class StatsApp:
         }
 
 # --- testeos --- #
-testing = StatsApp()
+if __name__ == "__main__":
+    testing = StatsApp()
 
-region = "americas"
-game_name  = input("Mandate el game name: ")
-tag_line = input("Mandate el tag line: ").upper()
-puuid = testing.get_player_puuid(region, game_name, tag_line)
-match_id = testing.get_matches_list(region, puuid)[0]
+    region = "americas"
+    game_name  = input("Mandate el game name: ")
+    tag_line = input("Mandate el tag line: ").upper()
+    puuid = testing.get_player_puuid(region, game_name, tag_line)
+    match_id = testing.get_matches_list(region, puuid)[0]
 
-#print(testing.get_every_match_data(region, testing.get_matches_list(region, puuid), puuid))
-print(testing.get_summoner_data("la2", puuid))
+    #print(testing.get_every_match_data(region, testing.get_matches_list(region, puuid), puuid))
+    print(testing.get_summoner_data("la2", puuid))
 
-#https://ddragon.leagueoflegends.com/cdn/14.14.1/img/profileicon/4560.png # iconos
+    #https://ddragon.leagueoflegends.com/cdn/14.14.1/img/profileicon/4560.png # iconos
 # -------------- #

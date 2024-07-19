@@ -56,19 +56,19 @@ class CreatePlt:
 
         return fig
 
+if __name__ == "__main__":
+    api_request_app = StatsApp()
 
-api_request_app = StatsApp()
+    region = "americas"
+    game_name  = input("Mandate el game name: ")
+    tag_line = input("Mandate el tag line: ").upper()
+    puuid = api_request_app.get_player_puuid(region, game_name, tag_line)
+    matches_list = api_request_app.get_matches_list(region, puuid)
+    dictionary = api_request_app.get_every_match_data(region, matches_list, puuid)
 
-region = "americas"
-game_name  = input("Mandate el game name: ")
-tag_line = input("Mandate el tag line: ").upper()
-puuid = api_request_app.get_player_puuid(region, game_name, tag_line)
-matches_list = api_request_app.get_matches_list(region, puuid)
-dictionary = api_request_app.get_every_match_data(region, matches_list, puuid)
+    df = pd.DataFrame.from_dict(dictionary, orient="index")
+    match_history = MatchHistory(df)
 
-df = pd.DataFrame.from_dict(dictionary, orient="index")
-match_history = MatchHistory(df)
-
-print(match_history.get_kda())
-# plot_creator = CreatePlt(df)
-# plot_creator.winrate_per_hour_plot()
+    print(match_history.get_kda())
+    # plot_creator = CreatePlt(df)
+    # plot_creator.winrate_per_hour_plot()
