@@ -3,9 +3,9 @@ from .forms import BusquedaInvocadorForm
 from .api_request import StatsApp
 import pandas as pd
 from .process_data import MatchHistory
-from .visualization_data import CreatePlt
-from matplotlib.backends.backend_agg import FigureCanvasAgg
-from django.http import HttpResponse
+# from .visualization_data import CreatePlt
+# from matplotlib.backends.backend_agg import FigureCanvasAgg
+# from django.http import HttpResponse
 
 def pagina_inicio(request):
     return render(request, 'pagina_inicio.html')

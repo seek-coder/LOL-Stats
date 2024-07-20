@@ -28,16 +28,14 @@ class MatchHistory:
         red_and_win_rate = round((len(red_and_win) / only_wins.shape[0]) * 100, 1)
         blue_and_win_rate = round((len(blue_and_win) / only_wins.shape[0]) * 100, 1)
 
-        return {'red_map': red_and_win_rate, 'blue_map': blue_and_win_rate}
+        return f"Lado rojo: {red_and_win_rate}, Lado azul: {blue_and_win_rate}"
 
     def total_time_played(self) -> str:
         seconds = self.df['gameDuration'].sum()
         hours, seconds = divmod(seconds, 3600)
         minutes, seconds = divmod(seconds, 60)
         total_time = f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
-        print (f"JUGASTE TODO ESTO PA: {total_time}")
         return total_time
-
 
     def total_winning_streak(self) -> int:
         shifted1 = self.df['win'].shift(1)
@@ -67,5 +65,4 @@ class MatchHistory:
         kills = round(self.df['kills'].sum() / match_count, 2)
         deaths = round(self.df['deaths'].sum() / match_count, 2)
         assists = round(self.df['assists'].sum() / match_count, 2)
-        print(f"GANASTE TODO ESTO PA: {kills}/{deaths}/{assists}")
         return f"{kills}/{deaths}/{assists}"
