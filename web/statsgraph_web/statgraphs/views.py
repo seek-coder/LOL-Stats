@@ -1,11 +1,12 @@
+import pandas as pd
+import io
+
 from django.shortcuts import render
 from .forms import BusquedaInvocadorForm
 from .api_request import StatsApp
-import pandas as pd
 from .process_data import MatchHistory
-# from .visualization_data import CreatePlt
-# from matplotlib.backends.backend_agg import FigureCanvasAgg
-# from django.http import HttpResponse
+from .visualization_data import CreatePlt
+from django.http import HttpResponse
 
 def pagina_inicio(request):
     return render(request, 'pagina_inicio.html')
@@ -33,16 +34,17 @@ def buscar_invocador(request):
                 
                 match_data = stats_app.get_every_match_data("americas", matches_list, puuid)
                 print(f"Datos de las partidas: {match_data}")
+
                 df = pd.DataFrame.from_dict(match_data, orient="index")
                 match_history = MatchHistory(df)
-                #all_plots = CreatePlt(match_history)
-                #plot = all_plots.winrate_per_hour_plot()
+
+                request.session['match_data'] = df.to_json()
+
                 return render(request, 'resultados.html', {
                     'summoner_data': summoner_data,
                     'match_history': match_history,
                     'nombre': nombre,
-                    'tag_line': tag_line
-                    #'plot' : plot
+                    'tag_line': tag_line,
                 })
             except ValueError as e:
                 return render(request, 'resultados.html', {'error': str(e)})
@@ -55,9 +57,33 @@ def buscar_invocador(request):
     
     return render(request, 'busqueda.html', {'form': form})
 
-# def plot(request):
-#     # AGREGAR LA FUNCION QUE GENERA EL PLOT COMO fig
-#     response = HttpResponse(content_type='image/png')
-#     canvas = FigureCanvasAgg(fig)
-#     canvas.print_png(response)
-#     return response
+def plot1(request):
+    match_data_json = request.session.get('match_data', None)
+    if match_data_json:
+        df = pd.read_json(match_data_json)
+        plot_creator = CreatePlt(df)
+        fig = plot_creator.winrate_per_day_plot()
+        
+        buf = io.BytesIO()
+        fig.savefig(buf, format='png')
+        buf.seek(0)
+        
+        response = HttpResponse(buf, content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="plot1.png"'
+        return response
+    
+
+def plot2(request):
+    match_data_json = request.session.get('match_data', None)
+    if match_data_json:
+        df = pd.read_json(match_data_json)
+        plot_creator = CreatePlt(df)
+        fig = plot_creator.winrate_per_hour_plot()
+        
+        buf = io.BytesIO()
+        fig.savefig(buf, format='png')
+        buf.seek(0)
+        
+        response = HttpResponse(buf, content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="plot2.png"'
+        return response

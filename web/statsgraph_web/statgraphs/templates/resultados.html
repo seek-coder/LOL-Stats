@@ -1,7 +1,16 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Resultados de Búsqueda</title>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;
+        600;700;800&display=swap" rel="stylesheet">
+        
+        <title>Resultados de Búsqueda</title>
+
+        {% tailwind_css %}
 </head>
 <body>
     <h1>Resultados</h1>
@@ -19,6 +28,8 @@
         <p>Porcentaje de victorias según lado del mapa (rojo/azul): {{ match_history.win_rate_by_map_side }}</p>
         <p>Cantidad de tiempo jugado: {{ match_history.total_time_played }}</p>
         <p>KDA: {{ match_history.get_kda }}</p>
+        <img src="{% url 'plot_image1' %}" alt="Plot Image">
+        <img src="{% url 'plot_image2' %}" alt="Plot Image 2">
     {% endif %}
     {% if error %}
         <p>Error: {{ error }}</p>

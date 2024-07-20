@@ -7,5 +7,6 @@ from . import views
 
 urlpatterns = [
     path('', views.buscar_invocador, name='buscar_invocador'),
-    #path('plot/', views.plot, name='plot'),
+    path('plot1/', views.plot1, name='plot_image1'),
+    path('plot2/', views.plot2, name='plot_image2')
 ]
