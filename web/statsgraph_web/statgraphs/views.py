@@ -35,17 +35,18 @@ def buscar_invocador(request):
                 print(f"Datos de las partidas: {match_data}")
                 df = pd.DataFrame.from_dict(match_data, orient="index")
                 match_history = MatchHistory(df)
-                all_plots = CreatePlt(match_history)
-                plot = all_plots.winrate_per_hour_plot()
+                #all_plots = CreatePlt(match_history)
+                #plot = all_plots.winrate_per_hour_plot()
                 return render(request, 'resultados.html', {
                     'summoner_data': summoner_data,
                     'match_history': match_history,
-                    'plot' : plot
+                    'nombre': nombre,
+                    'tag_line': tag_line
+                    #'plot' : plot
                 })
             except ValueError as e:
                 return render(request, 'resultados.html', {'error': str(e)})
             except KeyError as e:
-                # Imprimir la excepción KeyError
                 return render(request, 'resultados.html', {'error': f'Error de clave: {e}'})
             except Exception as e:
                 return render(request, 'resultados.html', {'error': f'Error inesperado: {str(e)}'})
@@ -54,9 +55,9 @@ def buscar_invocador(request):
     
     return render(request, 'busqueda.html', {'form': form})
 
-def plot(request):
-    # AGREGAR LA FUNCION QUE GENERA EL PLOT COMO fig
-    response = HttpResponse(content_type='image/png')
-    canvas = FigureCanvasAgg(fig)
-    canvas.print_png(response)
-    return response
+# def plot(request):
+#     # AGREGAR LA FUNCION QUE GENERA EL PLOT COMO fig
+#     response = HttpResponse(content_type='image/png')
+#     canvas = FigureCanvasAgg(fig)
+#     canvas.print_png(response)
+#     return response

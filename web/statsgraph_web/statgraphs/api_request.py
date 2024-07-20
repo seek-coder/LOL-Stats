@@ -2,7 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 
-load_dotenv(dotenv_path="C:/Users/Leo\Desktop/Estudiar/Programación/Proyect_lol/graph_project_1/node_modules/.env")
+load_dotenv(dotenv_path="D:/proyecto_lol/graph_project_1/node_modules/.env")
 
 class StatsApp:
     # ------------------ #
@@ -33,7 +33,7 @@ class StatsApp:
     # -------------------- #
     def get_matches_list(self, region: str, player_puuid: str) -> list:
 
-        self.api_url= f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids?start=0&count=20&api_key={self.api_key}"
+        self.api_url= f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids?start=0&count=30&api_key={self.api_key}"
 
         self.matches_list = self.get_response(self.api_url)
 
