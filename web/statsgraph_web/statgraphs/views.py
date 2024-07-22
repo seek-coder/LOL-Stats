@@ -9,7 +9,7 @@ from .visualization_data import CreatePlt
 from django.http import HttpResponse
 
 def pagina_inicio(request):
-    return render(request, 'pagina_inicio.html')
+    return render(request, 'buscar_invocador.html')
 
 def buscar_invocador(request):
     if request.method == 'POST':
@@ -87,3 +87,6 @@ def plot2(request):
         response = HttpResponse(buf, content_type='image/png')
         response['Content-Disposition'] = 'inline; filename="plot2.png"'
         return response
+    
+def sobre_nosotros(request):
+    return render(request, 'sobre_nosotros.html')

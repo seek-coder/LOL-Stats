@@ -16,8 +16,8 @@
     <header class="flex justify-center items-center pt-12 w-full xl:w-[1120px] mx-auto">
 
         <nav class="flex flex-row gap-x-10 opacity-90">
-            <a href="#top" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Inicio</a>
-            <a href="#sobre-nosotros" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Sobre nosotros</a>
+            <a href="{% url 'buscar_invocador' %}" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Inicio</a>
+            <a href="{% url 'sobre_nosotros' %}" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Sobre nosotros</a>
         </nav>
     </header>
 
@@ -42,7 +42,7 @@
 
     <!-- FOOTER -->
 
-    <footer class=" text-white rounded-lg shadow m-4 mt-40 p-6 md:p-8">
+    <footer class=" text-white rounded-lg m-4 mt-40 p-6 md:p-8">
         <div class="max-w-screen-xl mx-auto">
             <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between">
                 <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
@@ -50,9 +50,11 @@
             </div>
             <hr class="my-6 border-white opacity-50 lg:my-8" />
             <span class="block text-sm text-white opacity-50 text-center">Funcionalidades desarrolladas por Leonardo Carabajal y Catriel Gatto, 2024</span>
+            <br/>
+            <span class="block text-xs text-white opacity-20 text-center">
+                LoLStats isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+            </span>
         </div>
     </footer>
-    
-
 </body>
 </html>

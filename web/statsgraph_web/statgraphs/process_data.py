@@ -28,7 +28,7 @@ class MatchHistory:
         red_and_win_rate = round((len(red_and_win) / only_wins.shape[0]) * 100, 1)
         blue_and_win_rate = round((len(blue_and_win) / only_wins.shape[0]) * 100, 1)
 
-        return f"Lado rojo: {red_and_win_rate}, Lado azul: {blue_and_win_rate}"
+        return f"Lado rojo: {red_and_win_rate} %, Lado azul:  {blue_and_win_rate} %"
 
     def total_time_played(self) -> str:
         seconds = self.df['gameDuration'].sum()
@@ -37,14 +37,14 @@ class MatchHistory:
         total_time = f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
         return total_time
 
-    def total_winning_streak(self) -> int:
-        shifted1 = self.df['win'].shift(1)
-        shifted2 = self.df['win'].shift(2)
+    # def total_winning_streak(self) -> int:
+    #     shifted1 = self.df['win'].shift(1)
+    #     shifted2 = self.df['win'].shift(2)
 
-        winning_streak = (self.df['win'] == shifted1) & (shifted1 == shifted2)
-        total_winning_streak = winning_streak.sum()
+    #     winning_streak = (self.df['win'] == shifted1) & (shifted1 == shifted2)
+    #     total_winning_streak = winning_streak.sum()
 
-        return total_winning_streak
+    #     return total_winning_streak
 
     def get_match_day(self, timestamp_column):
         def timestamp_to_day_of_week(timestamp) -> str:
@@ -56,9 +56,9 @@ class MatchHistory:
             return datetime.fromtimestamp(timestamp / 1000).hour
         self.df[timestamp_column] = self.df[timestamp_column].apply(timestamp_to_hour)
 
-    def mean_farm (self) -> int:
-        mean_farm_per_match = self.df['totalMinionsKilled'].sum()/self.df.shape[0]
-        return mean_farm_per_match
+    # def mean_farm (self) -> int:
+    #     mean_farm_per_match = self.df['totalMinionsKilled'].sum()/self.df.shape[0]
+    #     return mean_farm_per_match
 
     def get_kda(self) -> int:
         match_count = self.df.shape[0]

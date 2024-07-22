@@ -1,38 +1,76 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;
-        600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
         
         <title>Resultados de Búsqueda</title>
 
         {% tailwind_css %}
 </head>
-<body>
-    <h1>Resultados</h1>
-    {% if summoner_data %}
-        <h2>Datos del Invocador</h2>
-        <p>Nombre: {{ nombre }}</p>
-        <p>Tag: {{ tag_line }}</p>
-        <p>Nivel: {{ summoner_data.summonerLevel }}</p>
-        <p>Ícono: <img src="https://ddragon.leagueoflegends.com/cdn/14.14.1/img/profileicon/{{ summoner_data.profileIconId }}.png" alt="Ícono del perfil">
-        </p>
-    {% endif %}
-    {% if match_history %}
-        <h2>Estadísticas de las últimas 30 partidas</h2>
-        <p>Winrate: % {{ match_history.win_rate }}</p>
-        <p>Porcentaje de victorias según lado del mapa (rojo/azul): {{ match_history.win_rate_by_map_side }}</p>
-        <p>Cantidad de tiempo jugado: {{ match_history.total_time_played }}</p>
-        <p>KDA: {{ match_history.get_kda }}</p>
-        <img src="{% url 'plot_image1' %}" alt="Plot Image">
-        <img src="{% url 'plot_image2' %}" alt="Plot Image 2">
-    {% endif %}
-    {% if error %}
-        <p>Error: {{ error }}</p>
-    {% endif %}
+
+
+<body class="flex flex-col min-h-[100vh] bg-[#2B2D42] font-Mukta">
+    <!-- HEADER -->
+    <header class="flex justify-center items-center pt-12 w-full xl:w-[1120px] mx-auto">
+
+        <nav class="flex flex-row gap-x-10 opacity-90">
+            <a href="{% url 'buscar_invocador' %}" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Inicio</a>
+            <a href="{% url 'sobre_nosotros' %}" class="text-[#F0F0F0] hover:text-[#b4b4b4] transition-colors">Sobre nosotros</a>
+        </nav>
+    </header>
+    
+    <!-- ESTADÍSTICAS -->
+    <div class="grid grid-cols-2 grid-flow-col gap-4 mt-16 w-full max-w-[100rem] h-[46rem] mx-auto rounded-xl bg-[#EDF2F4] p-4">
+        <div class="flex flex-col row-span-2 shadow-inner place-self-center w-[45.188rem] h-[40rem] bg-[#E4EAEC] rounded-3xl items-center justify-center">
+            {% if summoner_data %}
+        <img class="size-[6.25rem] rounded-full" src="https://ddragon.leagueoflegends.com/cdn/14.14.1/img/profileicon/{{ summoner_data.profileIconId }}.png" alt="Ícono del perfil">
+            <h2 class="text-4xl"><strong>Datos del Invocador</strong></h2>
+            <hr class="h-1 w-10/12 my-8 bg-[#CCCCCC] border-0 dark:bg-[#CCCCCC]">
+            <p><strong>Nombre: </strong> {{ nombre }}</p>
+            <p><strong>Tag: </strong> {{ tag_line|upper }}</p>
+            <p><strong>Nivel: </strong> {{ summoner_data.summonerLevel }} </p>
+            <hr class="h-1 w-10/12 my-8 bg-[#CCCCCC] border-0 dark:bg-[#CCCCCC]">
+        {% endif %}
+        {% if match_history %}
+            <h2 class="text-4xl"><strong>Estadísticas de las últimas 30 partidas</strong></h2>
+            <hr class="h-1 w-10/12 my-8 bg-[#CCCCCC] border-0 dark:bg-[#CCCCCC]">
+            <p><strong>Winrate total: </strong>  {{ match_history.win_rate }} %</p>
+            <p><strong>Winrate según lado (rojo/azul): </strong> {{ match_history.win_rate_by_map_side }}</p>
+            <p><strong>Cantidad de tiempo jugado: </strong> {{ match_history.total_time_played }}</p>
+            <p><strong>KDA: </strong> {{ match_history.get_kda }}</p>
+        {% endif %}
+        {% if error %}
+            <p>Error: {{ error }}</p>
+        {% endif %}
+        </div>
+        <div class="flex col-span-1 shadow-inner place-self-center w-[41.688rem] h-[18.75rem] bg-[#E4EAEC] rounded-3xl items-center justify-center">
+            <img class="w-[25rem] h-[18.75rem]" src="{% url 'plot_image1' %}" alt="Plot Image">
+        </div>
+        <div class="flex col-span-1 shadow-inner place-self-center w-[41.688rem] h-[18.75rem] bg-[#E4EAEC] rounded-3xl items-center justify-center">
+            <img class="w-[25rem] h-[18.75rem]" src="{% url 'plot_image2' %}" alt="Plot Image 2"></div>
+    </div>
+
+        <!-- FOOTER -->
+
+        <footer class=" text-white rounded-lg m-4 mt-40 p-6 md:p-8">
+            <div class="max-w-screen-xl mx-auto">
+                <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between">
+                    <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                    </a>
+                </div>
+                <hr class="my-6 border-white opacity-50 lg:my-8" />
+                <span class="block text-sm text-white opacity-50 text-center">Funcionalidades desarrolladas por Leonardo Carabajal y Catriel Gatto, 2024</span>
+                <br/>
+                <span class="block text-xs text-white opacity-20 text-center">
+                    LoLStats isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+                </span>
+            </div>
+        </footer>
+    
 </body>
 </html>

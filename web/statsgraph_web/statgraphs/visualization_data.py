@@ -22,11 +22,25 @@ class CreatePlt:
         else:
             win_rate_by_day = pd.Series([0]*7, index=days_of_week)
 
-        fig, ax = plt.subplots()
-        win_rate_by_day.plot(kind='bar', ax=ax)
+        pixel_width = 400 
+        pixel_height = 300
+        dpi = 100 
+
+        fig, ax = plt.subplots(figsize=(pixel_width / dpi, pixel_height / dpi), dpi=dpi)
+
+        
+        color = "#2B2D42"
+
+
+        win_rate_by_day.plot(kind='bar', ax=ax, color=color)
         ax.set_xlabel('Día de la semana')
         ax.set_ylabel('Porcentaje de victorias')
-        ax.set_title('Tasa de victorias según el día de la semana')
+        ax.set_title('Tasa de victorias según el día')
+
+        ax.grid(True, which='both', axis='both', linestyle='--', color='gray', alpha=0.7)
+
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
         
         return fig
 
@@ -43,13 +57,25 @@ class CreatePlt:
         else:
             win_rate_by_hour = pd.Series([0]*24, index=range(24))
 
-        fig, ax = plt.subplots()
-        win_rate_by_hour.plot(kind='bar', ax=ax)
+        pixel_width = 400 
+        pixel_height = 300
+        dpi = 100 
+
+        fig, ax = plt.subplots(figsize=(pixel_width / dpi, pixel_height / dpi), dpi=dpi)
+
+
+        color = "#2B2D42"
+
+        win_rate_by_hour.plot(kind='bar', ax=ax, color=color)
         ax.set_xlabel('Hora')
         ax.set_ylabel('Porcentaje de victorias')
         ax.set_title('Tasa de victorias según la hora del día')
         ax.set_xticks([0, 5, 10, 15, 20])
         ax.set_xticklabels([0, 5, 10, 15, 20])
+
+        ax.grid(True, which='both', axis='both', linestyle='--', color='gray', alpha=0.7)
+        
+        plt.tight_layout()
 
         return fig
 
