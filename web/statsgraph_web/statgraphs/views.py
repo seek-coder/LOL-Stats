@@ -62,31 +62,42 @@ def plot1(request):
     if match_data_json:
         df = pd.read_json(match_data_json)
         plot_creator = CreatePlt(df)
-        fig = plot_creator.winrate_per_day_plot()
-        
-        buf = io.BytesIO()
-        fig.savefig(buf, format='png')
-        buf.seek(0)
-        
-        response = HttpResponse(buf, content_type='image/png')
-        response['Content-Disposition'] = 'inline; filename="plot1.png"'
-        return response
+        try:
+            fig = plot_creator.winrate_per_day_plot()
+            
+            buf = io.BytesIO()
+            fig.savefig(buf, format='png')
+            buf.seek(0)
+            
+            response = HttpResponse(buf, content_type='image/png')
+            response['Content-Disposition'] = 'inline; filename="plot1.png"'
+            return response
+        except Exception as e:
+            print(f"Error generating plot: {e}")
+            return HttpResponse("Failed to generate image.", status=500)
+    else:
+        return HttpResponse("No match data available.", status=404)
     
-
 def plot2(request):
     match_data_json = request.session.get('match_data', None)
     if match_data_json:
         df = pd.read_json(match_data_json)
-        plot_creator = CreatePlt(df)
-        fig = plot_creator.winrate_per_hour_plot()
-        
-        buf = io.BytesIO()
-        fig.savefig(buf, format='png')
-        buf.seek(0)
-        
-        response = HttpResponse(buf, content_type='image/png')
-        response['Content-Disposition'] = 'inline; filename="plot2.png"'
-        return response
+        plot_creator = CreatePlt(df)   
+        try:
+            fig = plot_creator.winrate_per_hour_plot()
+            
+            buf = io.BytesIO()
+            fig.savefig(buf, format='png')
+            buf.seek(0)
+            
+            response = HttpResponse(buf, content_type='image/png')
+            response['Content-Disposition'] = 'inline; filename="plot2.png"'
+            return response
+        except Exception as e:
+            print(f"Error generating plot: {e}")
+            return HttpResponse("Failed to generate image.", status=500)
+    else:
+        return HttpResponse("No match data available.", status=404)
     
 def sobre_nosotros(request):
     return render(request, 'sobre_nosotros.html')
