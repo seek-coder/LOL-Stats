@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+# print("Variables de entorno cargadas: ", os.environ)
 
 class StatsApp:
     # ------------------ #
@@ -11,6 +12,10 @@ class StatsApp:
     def __init__(self):
 
         self.api_key = os.getenv('API_KEY')
+        if self.api_key is None:
+            print("Error: No se ha encontrado la clave API.")
+        else:
+            print("Clave API cargada correctamente.")
 
     def get_response(self, url: str) -> str:
         self.response = requests.get(url)

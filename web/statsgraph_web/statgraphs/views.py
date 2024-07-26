@@ -66,7 +66,8 @@ def plot1(request):
             fig = plot_creator.winrate_per_day_plot()
             
             buf = io.BytesIO()
-            fig.savefig(buf, format='png')
+            fig.savefig(buf, format='png', bbox_inches='tight')
+
             buf.seek(0)
             
             response = HttpResponse(buf, content_type='image/png')
@@ -87,7 +88,7 @@ def plot2(request):
             fig = plot_creator.winrate_per_hour_plot()
             
             buf = io.BytesIO()
-            fig.savefig(buf, format='png')
+            fig.savefig(buf, format='png', bbox_inches='tight')
             buf.seek(0)
             
             response = HttpResponse(buf, content_type='image/png')
