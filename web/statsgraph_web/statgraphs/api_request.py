@@ -9,13 +9,15 @@ class StatsApp:
     # ------------------ #
     #    1. summoner     #
     # ------------------ #
-    def __init__(self):
+    # def __init__(self):
 
-        self.api_key = os.getenv('API_KEY')
-        if self.api_key is None:
-            print("Error: No se ha encontrado la clave API.")
-        else:
-            print("Clave API cargada correctamente.")
+    #     self.api_key = os.getenv('API_KEY')
+    #     if self.api_key is None:
+    #         print("Error: No se ha encontrado la clave API.")
+    #     else:
+    #         print("Clave API cargada correctamente.")
+    def __init__(self, api_key):
+        self.api_key = api_key
 
     def get_response(self, url: str) -> str:
         self.response = requests.get(url)

@@ -15,9 +15,11 @@ def buscar_invocador(request):
     if request.method == 'POST':
         form = BusquedaInvocadorForm(request.POST)
         if form.is_valid():
-            nombre = form.cleaned_data['nombre']
-            tag_line = form.cleaned_data['tag_line']
-            stats_app = StatsApp()
+            nombre = request.POST.get('nombre')
+            tag_line = request.POST.get('tag_line')
+            api_key = request.POST.get('api_key') 
+            if nombre and tag_line and api_key:
+                stats_app = StatsApp(api_key)
             
             try:
                 puuid = stats_app.get_player_puuid("americas", nombre, tag_line)

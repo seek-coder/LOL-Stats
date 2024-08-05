@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <title>Buscar Invocador</title>
+    <title>LoLStats</title>
     {% tailwind_css %}
     <style>
         @keyframes pulse {
@@ -68,26 +68,29 @@
         </clipPath>
         </defs>
         </svg>
-</div> 
-
+    </div> 
 
     <!--SEARCH BARS-->
-
     <div class="flex justify-center items-center mt-12">
         <form id="searchForm" method="post" action="{% url 'buscar_invocador' %}" class="relative max-w-md mx-auto p-4">
             {% csrf_token %}
             <div class="relative">
                 <input type="text" name="nombre" id="nombre" class="block w-full h-12 p-2 ps-8 text-sm placeholder:opacity-70 focus:placeholder:text-transparent text-gray-900/80 border border-gray-300 rounded-3xl bg-gray-50" placeholder="Nombre de invocador" required />
                 <input type="text" name="tag_line" id="tag_line" class="block w-full h-12 mt-5 p-2 ps-8 text-sm placeholder:opacity-70 focus:placeholder:text-transparent text-gray-900/80 border border-gray-300 rounded-3xl bg-gray-50" placeholder="# Tag" required />
+                <input type="password" name="api_key" id="api_key" class="block w-full h-12 mt-5 p-2 ps-8 text-sm placeholder:opacity-70 focus:placeholder:text-transparent text-gray-900/80 border border-gray-300 rounded-3xl bg-gray-50" placeholder="Developer API Key" required autocomplete='off'/>
+                <p class="text-xs text-white opacity-50 mt-2  left-0 w-full text-center">
+                    Al realizar la búsqueda, aceptas el uso de la API Key proporcionada para la búsqueda en tiempo real. La API Key no será almacenada ni recordada en nuestra base de datos.
+                </p>
             </div>
-            <button type="submit" class="mt-5 w-full h-12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-white font-medium rounded-3xl text-sm px-5 py-2.5 flex items-center justify-center">
+            <button type="submit" class=" mt-5 w-full h-12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-white font-medium rounded-3xl text-sm px-5 py-2.5 flex items-center justify-center">
                 Buscar
                 <svg class="size-4 ml-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    <path stroke="#FFC107" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                 </svg>
             </button>
         </form>
     </div>
+    
     <script>
         document.getElementById('searchForm').addEventListener('submit', function(event) {
             document.getElementById('loadingAnimation').classList.add('pulse-animation');
@@ -103,12 +106,12 @@
             </div>
             <hr class="my-6 border-white opacity-50 lg:my-8" />
             <span class="block text-sm text-white opacity-50 text-center">Funcionalidades desarrolladas por Leonardo Carabajal y Catriel Gatto, 2024</span>
+            
             <br/>
             <span class="block text-xs text-white opacity-20 text-center">
                 LoLStats isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
             </span>
         </div>
     </footer>
-
 </body>
 </html>

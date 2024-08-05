@@ -9,23 +9,16 @@ Firstly, being in the root path, you'll have to install the dependencies from a 
 pip install requirements.txt
 ```
 
-Secondly, to run this app, you'll need to add a personal API KEY from Riot's website. For this, you can write on the terminal (replace 'yourapikey' with yours):
+Secondly, to run this app, you'll need to run the server. You have to be on the path 'graph_project_1\web\statsgraph_web' and run it on the terminal:
 ```
-echo "API_KEY=yourapikey" > web/statsgraph_web/statgraphs/.env
-```
-Then, be sure to be in the manage.py folder. You can simply run:
-```
-cd web/statsgraph_web/
-```
-
-In this path, just run:
-```
-python manage.py runserver
+py manage.py runserver
 ```
 
 And if everything was done right, you'll now have access to the website that is located in localhost:8000
 
-The website is in spanish. English version will be added soon. 
+You'll need an API KEY in order to make a search on the website.
+
+The website is in Spanish. English version will be added soon. 
 
 ## Summary of functions
 This app searches data from a LAS summoner (AMERICA) and returns info from the last 30 matches:
